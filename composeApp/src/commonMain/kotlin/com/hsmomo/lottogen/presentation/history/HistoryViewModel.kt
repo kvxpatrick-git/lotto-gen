@@ -45,22 +45,27 @@ class HistoryViewModel(
             return
         }
 
-        val numbers = try {
+        val parsedNumbers = try {
             query.split(",")
                 .map { it.trim() }
                 .filter { it.isNotEmpty() }
                 .map { it.toInt() }
-                .filter { it in 1..45 }
-                .distinct()
         } catch (e: NumberFormatException) {
             postSideEffect(HistoryContract.Effect.ShowError("올바른 숫자를 입력해주세요"))
             return
         }
 
-        if (numbers.isEmpty()) {
+        if (parsedNumbers.isEmpty()) {
             postSideEffect(HistoryContract.Effect.ShowError("1~45 사이의 숫자를 입력해주세요"))
             return
         }
+
+        if (parsedNumbers.any { it !in 1..45 }) {
+            postSideEffect(HistoryContract.Effect.ShowError("1~45 사이의 숫자를 입력해주세요"))
+            return
+        }
+
+        val numbers = parsedNumbers.distinct()
 
         reduce { copy(isLoading = true, searchNumbers = numbers) }
 

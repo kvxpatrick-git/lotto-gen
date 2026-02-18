@@ -16,7 +16,7 @@ object StatisticsContract {
             get() {
                 if (maxCount == 0) return 0
                 val step = if (maxCount > 100) 50 else 10
-                return ((maxCount / step) + 1) * step
+                return ((maxCount + step - 1) / step) * step
             }
     }
 

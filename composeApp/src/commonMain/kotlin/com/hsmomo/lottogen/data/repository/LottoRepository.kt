@@ -11,6 +11,7 @@ interface LottoRepository {
     suspend fun getAllDraws(): List<WinningDraw>
     suspend fun syncDrawData(): Result<Int>
     suspend fun getLatestDrawNo(): Int?
+    suspend fun getRemoteLatestDrawNo(): Result<Int>
     suspend fun searchDrawsByNumbers(numbers: List<Int>): List<WinningDraw>
 
     // Statistics

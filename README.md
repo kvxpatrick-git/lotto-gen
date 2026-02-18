@@ -207,7 +207,8 @@ LottoGen/
 
 ### 요구사항
 - Android Studio Ladybug 이상 (또는 IntelliJ IDEA)
-- JDK 17
+- Gradle Daemon: JetBrains Runtime(JBR) 21
+- Kotlin/Android 컴파일 타겟: Java 17
 - Xcode 15+ (iOS 빌드용)
 - Android SDK 35 (compileSdk)
 - minSdk 26 (Android 8.0)

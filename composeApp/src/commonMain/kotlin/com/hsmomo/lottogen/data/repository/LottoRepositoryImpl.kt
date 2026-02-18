@@ -87,6 +87,10 @@ class LottoRepositoryImpl(
         queries.selectLatestDrawNo().executeAsOneOrNull()?.MAX?.toInt()
     }
 
+    override suspend fun getRemoteLatestDrawNo(): Result<Int> = withContext(Dispatchers.IO) {
+        remoteDataSource.getLatestDrawNo()
+    }
+
     override suspend fun searchDrawsByNumbers(numbers: List<Int>): List<WinningDraw> = withContext(Dispatchers.IO) {
         if (numbers.isEmpty()) {
             return@withContext getAllDraws()
