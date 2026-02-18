@@ -20,6 +20,7 @@ import com.hsmomo.lottogen.presentation.history.HistoryViewModel
 import com.hsmomo.lottogen.presentation.settings.SettingsViewModel
 import com.hsmomo.lottogen.presentation.splash.SplashViewModel
 import com.hsmomo.lottogen.presentation.statistics.StatisticsViewModel
+import com.hsmomo.lottogen.util.SyncLog
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -27,7 +28,11 @@ import org.koin.dsl.module
 val appModule = module {
     // Network
     single { createHttpClient() }
-    single(named("lottoProxyBaseUrl")) { proxyBaseUrl() }
+    single(named("lottoProxyBaseUrl")) {
+        proxyBaseUrl().also { baseUrl ->
+            SyncLog.i("AppModule", "lotto proxy baseUrl=$baseUrl")
+        }
+    }
     single { LottoApiService(get(), get(named("lottoProxyBaseUrl"))) }
     single { LottoRemoteDataSource(get()) }
 

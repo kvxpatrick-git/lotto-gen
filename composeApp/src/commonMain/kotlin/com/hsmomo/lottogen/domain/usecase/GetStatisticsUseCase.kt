@@ -7,6 +7,6 @@ class GetStatisticsUseCase(
     private val repository: LottoRepository
 ) {
     suspend operator fun invoke(): List<NumberStatistics> {
-        return repository.getNumberStatistics()
+        return repository.getNumberStatistics(includeBonus = true)
     }
 }

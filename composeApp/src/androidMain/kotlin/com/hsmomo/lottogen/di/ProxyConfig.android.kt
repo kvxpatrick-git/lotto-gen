@@ -1,3 +1,5 @@
 package com.hsmomo.lottogen.di
 
-actual fun proxyBaseUrl(): String = "http://10.0.2.2:8787"
+import com.hsmomo.lottogen.BuildConfig
+
+actual fun proxyBaseUrl(): String = BuildConfig.LOTTO_PROXY_BASE_URL

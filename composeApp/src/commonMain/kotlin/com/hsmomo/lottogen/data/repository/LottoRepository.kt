@@ -15,7 +15,7 @@ interface LottoRepository {
     suspend fun searchDrawsByNumbers(numbers: List<Int>): List<WinningDraw>
 
     // Statistics
-    suspend fun getNumberStatistics(): List<NumberStatistics>
+    suspend fun getNumberStatistics(includeBonus: Boolean = false): List<NumberStatistics>
 
     // Bookmark
     fun getAllBookmarksFlow(): Flow<List<Bookmark>>

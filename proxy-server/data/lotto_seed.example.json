@@ -1,0 +1,18 @@
+{
+  "draws": [
+    {
+      "drawNo": 1,
+      "drawDate": "2002-12-07",
+      "numbers": [10, 23, 29, 33, 37, 40],
+      "bonus": 16,
+      "firstPrizeAmount": 0
+    },
+    {
+      "drawNo": 2,
+      "drawDate": "2002-12-14",
+      "numbers": [9, 13, 21, 25, 32, 42],
+      "bonus": 2,
+      "firstPrizeAmount": 0
+    }
+  ]
+}

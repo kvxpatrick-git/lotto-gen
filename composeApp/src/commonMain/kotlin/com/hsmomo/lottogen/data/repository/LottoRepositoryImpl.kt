@@ -107,7 +107,7 @@ class LottoRepositoryImpl(
     }
 
     // Statistics
-    override suspend fun getNumberStatistics(): List<NumberStatistics> = withContext(Dispatchers.IO) {
+    override suspend fun getNumberStatistics(includeBonus: Boolean): List<NumberStatistics> = withContext(Dispatchers.IO) {
         val draws = queries.selectAllDraws().executeAsList()
         val countMap = mutableMapOf<Int, Int>()
 
@@ -116,6 +116,9 @@ class LottoRepositoryImpl(
         draws.forEach { draw ->
             listOf(draw.n1, draw.n2, draw.n3, draw.n4, draw.n5, draw.n6).forEach { num ->
                 countMap[num.toInt()] = (countMap[num.toInt()] ?: 0) + 1
+            }
+            if (includeBonus) {
+                countMap[draw.bonus.toInt()] = (countMap[draw.bonus.toInt()] ?: 0) + 1
             }
         }
 

@@ -56,6 +56,12 @@ fun StatisticsScreen(
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(bottom = 8.dp)
         )
+        Text(
+            text = "보너스(행운번호) 포함 집계",
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
 
         if (state.statistics.isNotEmpty()) {
             Text(

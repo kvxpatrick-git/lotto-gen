@@ -16,6 +16,7 @@
 local.properties
 node_modules
 proxy-server/node_modules
+proxy-server/data/lotto_seed.json
 .kotlin
 **/build/
 composeApp/local.properties

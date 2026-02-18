@@ -16,11 +16,15 @@ object SyncLog {
     }
 
     fun e(tag: String, message: String, error: Throwable? = null) {
-        val suffix = if (error == null) {
-            ""
-        } else {
-            " | error=${error::class.simpleName}:${error.message}"
-        }
+        val suffix = if (error == null) "" else buildErrorSuffix(error)
         println("[${Clock.System.now()}][SYNC/$tag][ERROR] $message$suffix")
+    }
+
+    private fun buildErrorSuffix(error: Throwable): String {
+        val chain = generateSequence(error) { it.cause }
+            .take(4)
+            .joinToString(" <- ") { "${it::class.simpleName}:${it.message}" }
+        val topFrame = error.stackTrace.firstOrNull()?.let { " @ ${it.className}.${it.methodName}:${it.lineNumber}" } ?: ""
+        return " | error=$chain$topFrame"
     }
 }

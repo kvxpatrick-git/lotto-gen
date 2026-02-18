@@ -227,6 +227,57 @@ npm run start
 - Android 에뮬레이터 기준 앱 기본 프록시 URL: `http://10.0.2.2:8787`
 - iOS 시뮬레이터 기준 앱 기본 프록시 URL: `http://localhost:8787`
 
+### 사전 데이터(백필) 적재 방식
+초기 1회 동기화에서 전체 이력을 빠르게 채우려면 프록시에 사전 데이터 파일을 둡니다.
+
+1. 예제 파일 복사
+```bash
+cp proxy-server/data/lotto_seed.example.json proxy-server/data/lotto_seed.json
+```
+2. `proxy-server/data/lotto_seed.json`에 `draws` 배열로 1회~최신 회차를 채움
+3. 프록시 재시작
+4. 앱 첫 동기화 시 `/api/lotto/bootstrap`을 우선 호출해 사전 데이터 적재
+5. 이후에는 `/api/lotto/latest`, `/api/lotto/draws`로 증분 동기화
+6. 프록시에서 seed 파일 검증 실행
+```bash
+cd proxy-server
+npm run validate-seed
+```
+
+파일 포맷 예시:
+```json
+{
+  "draws": [
+    {
+      "drawNo": 1,
+      "drawDate": "2002-12-07",
+      "numbers": [10, 23, 29, 33, 37, 40],
+      "bonus": 16,
+      "firstPrizeAmount": 0
+    }
+  ]
+}
+```
+
+참고:
+- `lotto_seed.json` 파일이 없거나 비어 있으면 bootstrap은 404를 반환하고 기존 라이브 동기화로 자동 폴백됩니다.
+
+### Android 실기기 프록시 URL 설정
+Android는 `BuildConfig.LOTTO_PROXY_BASE_URL` 값을 사용합니다.
+
+- 기본값: `http://10.0.2.2:8787` (에뮬레이터용)
+- 실기기 사용 시: `local.properties`에 아래 항목 추가 후 재빌드
+
+```properties
+lotto.proxy.base.url=http://<PC_LAN_IP>:8787
+```
+
+예시:
+
+```properties
+lotto.proxy.base.url=http://192.168.0.12:8787
+```
+
 ### Android 빌드
 ```bash
 ./gradlew :composeApp:assembleDebug

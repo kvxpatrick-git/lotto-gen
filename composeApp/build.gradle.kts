@@ -1,5 +1,25 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
+
+fun String.toJavaStringLiteral(): String {
+    return "\"" + this
+        .replace("\\", "\\\\")
+        .replace("\"", "\\\"") + "\""
+}
+
+val localProperties = Properties().apply {
+    val localPropsFile = rootProject.file("local.properties")
+    if (localPropsFile.exists()) {
+        localPropsFile.inputStream().use { load(it) }
+    }
+}
+
+val lottoProxyBaseUrl: String = (
+    localProperties.getProperty("lotto.proxy.base.url")
+        ?: (findProperty("lottoProxyBaseUrl") as String?)
+        ?: "http://10.0.2.2:8787"
+    ).trim()
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -99,6 +119,7 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0.0"
+        buildConfigField("String", "LOTTO_PROXY_BASE_URL", lottoProxyBaseUrl.toJavaStringLiteral())
     }
 
     packaging {
