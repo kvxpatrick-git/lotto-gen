@@ -1,0 +1,80 @@
+-- Winning Draw table
+CREATE TABLE WinningDraw (
+    drawNo INTEGER PRIMARY KEY NOT NULL,
+    drawDate TEXT NOT NULL,
+    n1 INTEGER NOT NULL,
+    n2 INTEGER NOT NULL,
+    n3 INTEGER NOT NULL,
+    n4 INTEGER NOT NULL,
+    n5 INTEGER NOT NULL,
+    n6 INTEGER NOT NULL,
+    bonus INTEGER NOT NULL,
+    firstPrizeAmount INTEGER NOT NULL,
+    updatedAt INTEGER NOT NULL
+);
+
+-- Bookmark table
+CREATE TABLE Bookmark (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    numbersSortedText TEXT NOT NULL UNIQUE,
+    createdAt INTEGER NOT NULL
+);
+
+-- App Meta table
+CREATE TABLE AppMeta (
+    key TEXT PRIMARY KEY NOT NULL,
+    value TEXT NOT NULL
+);
+
+-- WinningDraw Queries
+selectAllDraws:
+SELECT * FROM WinningDraw ORDER BY drawNo DESC;
+
+selectDrawByNo:
+SELECT * FROM WinningDraw WHERE drawNo = ?;
+
+selectLatestDrawNo:
+SELECT MAX(drawNo) FROM WinningDraw;
+
+selectDrawCount:
+SELECT COUNT(*) FROM WinningDraw;
+
+insertDraw:
+INSERT OR REPLACE INTO WinningDraw(drawNo, drawDate, n1, n2, n3, n4, n5, n6, bonus, firstPrizeAmount, updatedAt)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+deleteAllDraws:
+DELETE FROM WinningDraw;
+
+-- Bookmark Queries
+selectAllBookmarks:
+SELECT * FROM Bookmark ORDER BY createdAt DESC;
+
+selectBookmarkByNumbers:
+SELECT * FROM Bookmark WHERE numbersSortedText = ?;
+
+isBookmarked:
+SELECT EXISTS(SELECT 1 FROM Bookmark WHERE numbersSortedText = ?);
+
+insertBookmark:
+INSERT OR IGNORE INTO Bookmark(numbersSortedText, createdAt)
+VALUES (?, ?);
+
+deleteBookmarkByNumbers:
+DELETE FROM Bookmark WHERE numbersSortedText = ?;
+
+deleteBookmarkById:
+DELETE FROM Bookmark WHERE id = ?;
+
+deleteAllBookmarks:
+DELETE FROM Bookmark;
+
+-- AppMeta Queries
+selectMetaValue:
+SELECT value FROM AppMeta WHERE key = ?;
+
+insertMeta:
+INSERT OR REPLACE INTO AppMeta(key, value) VALUES (?, ?);
+
+deleteMeta:
+DELETE FROM AppMeta WHERE key = ?;
