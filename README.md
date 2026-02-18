@@ -246,6 +246,52 @@ npm run start
 
 3. Xcode에서 빌드 및 실행
 
+## Git 협업 규칙
+
+### 기본 브랜치 전략
+- `main`: 배포 가능한 안정 브랜치
+- 작업 브랜치: `feat/*`, `fix/*`, `chore/*`, `docs/*`
+
+브랜치 예시:
+```bash
+git checkout -b feat/history-filter
+git checkout -b fix/proxy-timeout
+```
+
+### 커밋 메시지 규칙 (Conventional Commits)
+- 형식: `<type>: <summary>`
+- 권장 type: `feat`, `fix`, `chore`, `docs`, `refactor`, `test`
+
+예시:
+```text
+feat: add number history include-all filter
+fix: handle proxy timeout fallback
+chore: align gradle jbr toolchain setup
+```
+
+### 작업 흐름
+1. `main` 최신 반영 후 작업 브랜치 생성
+2. 기능 단위로 커밋
+3. 원격 브랜치 푸시 후 PR 생성
+4. 리뷰 반영 후 `main`으로 머지
+
+기본 명령:
+```bash
+git checkout main
+git pull origin main
+git checkout -b feat/your-task
+
+git add .
+git commit -m "feat: your change"
+git push -u origin feat/your-task
+```
+
+### PR 권장 체크리스트
+- 변경 목적/범위가 PR 본문에 명확히 정리됨
+- UI 변경 시 스크린샷 첨부
+- 빌드/실행 확인 완료 (`./gradlew :composeApp:assembleDebug`)
+- 관련 이슈/태스크 링크 첨부
+
 ## AdMob 설정
 
 현재 **테스트 광고 ID**가 적용되어 있습니다:
